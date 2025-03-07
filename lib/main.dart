@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:nti_course/features/auth/views/register_view.dart';
+
+import 'core/utils/app_text_styles.dart';
 
 
 
@@ -12,17 +15,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+        appBarTheme: AppBarTheme(
+          titleTextStyle: AppTextStyles.s25W500CBlack(),
+        ),
         fontFamily: 'Nunito',
       ),
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello Github',
-          style: TextStyle(
-            fontSize: 35,
-            fontWeight: FontWeight.w900
-          ),),
-        ),
-      )
+      home: RegisterView()
     );
   }
 }
