@@ -28,15 +28,19 @@ class RegisterView extends StatelessWidget {
           [
             SizedBox(height: AppSizes.spaceAboveForm,),
             DefaultAuthFormField(
+              label: AppStrings.name,
               controller: nameController,
             ),
             DefaultAuthFormField(
+              label: AppStrings.email,
               controller: emailController,
             ),
             DefaultAuthFormField(
+              label: AppStrings.password,
               controller: passwordController,
             ),
             DefaultAuthFormField(
+              label: AppStrings.passwordConfirm,
               controller: passwordConfirmController,
             ),
 

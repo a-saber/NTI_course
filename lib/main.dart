@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nti_course/features/auth/views/login_view.dart';
+import 'package:nti_course/core/constants/app_constants.dart';
 import 'package:nti_course/features/auth/views/register_view.dart';
 
 import 'core/utils/app_text_styles.dart';
@@ -15,13 +15,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         appBarTheme: AppBarTheme(
           titleTextStyle: AppTextStyles.s25W500CBlack(),
         ),
-        fontFamily: 'Nunito',
+        fontFamily: AppConstants.fontFamily,
       ),
-      home: LoginView()
+      home: RegisterView()
     );
   }
 }

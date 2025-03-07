@@ -25,9 +25,11 @@ class LoginView extends StatelessWidget {
           [
             SizedBox(height: AppSizes.spaceAboveForm,),
             DefaultAuthFormField(
+              label: AppStrings.email,
               controller: emailController,
             ),
             DefaultAuthFormField(
+              label: AppStrings.password,
               controller: passwordController,
             ),
 
