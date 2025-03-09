@@ -5,11 +5,21 @@ class AuthRepo
 {
   UserModel? user;
 
-  Either<String, void> register({required UserModel user})
+  Future<Either<String, void>> register({required UserModel user}) async
   {
     try
     {
+      if(user.email.isEmpty)
+      {
+        throw Exception('Email is empty');
+      }
+
+      if(user.password.isEmpty)
+      {
+        throw Exception('Password is empty');
+      }
       this.user = user;
+      await Future.delayed(Duration(milliseconds: 1000));
       return Right(null);
     }
     catch(e)
