@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nti_course/core/helper/my_navigator.dart';
 import 'package:nti_course/features/auth/data/models/user_model.dart';
 import 'package:nti_course/features/auth/data/repo/auth_repo.dart';
-import 'package:nti_course/features/auth/views/login_view.dart';
 
 import 'auth_state.dart';
 
@@ -16,6 +14,9 @@ class AuthCubit extends Cubit<AuthState> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController passwordConfirmController = TextEditingController();
+
+  final TextEditingController loginEmailController = TextEditingController();
+  final TextEditingController loginPasswordController = TextEditingController();
 
   AuthRepo authRepo = AuthRepo();
 
@@ -40,7 +41,24 @@ class AuthCubit extends Cubit<AuthState> {
       (r)
       {
         emit(AuthRegisterSuccess());
-        MyNavigator.navigateTo( screen: LoginView());
+      }
+    );
+  }
+
+
+  void onLoginPressed()
+  {
+    emit(AuthLoginLoading());
+
+    var response = authRepo.login(email: loginEmailController.text, password: loginPasswordController.text);
+    response.fold(
+      (String error)
+      {
+        emit(AuthLoginError(error: error));
+      },
+      (UserModel user)
+      {
+        emit(AuthLoginSuccess());
       }
     );
   }

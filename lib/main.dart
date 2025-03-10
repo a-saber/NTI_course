@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:nti_course/core/constants/app_constants.dart';
+import 'package:nti_course/features/auth/manager/auth_cubit/auth_cubit.dart';
 import 'package:nti_course/features/auth/views/register_view.dart';
 
 import 'core/utils/app_text_styles.dart';
-
 
 
 void main() {
@@ -13,17 +14,21 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          titleTextStyle: AppTextStyles.s25W500CBlack(),
-        ),
-        fontFamily: AppConstants.fontFamily,
+    return BlocProvider(
+      create: (context) => AuthCubit(),
+      child: GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            appBarTheme: AppBarTheme(
+              titleTextStyle: AppTextStyles.s25W500CBlack(),
+            ),
+            fontFamily: AppConstants.fontFamily,
+          ),
+          home: RegisterView()
       ),
-      home: RegisterView()
     );
   }
 }
