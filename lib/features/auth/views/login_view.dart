@@ -16,7 +16,9 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocProvider(
+  create: (context) => AuthCubit(),
+  child: Scaffold(
       appBar: AppBar(
         title: Text(AppStrings.login),
         centerTitle: true,
@@ -63,6 +65,7 @@ class LoginView extends StatelessWidget {
           );
         }
       ),
-    );
+    ),
+);
   }
 }

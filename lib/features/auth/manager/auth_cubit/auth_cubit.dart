@@ -6,7 +6,14 @@ import 'package:nti_course/features/auth/data/repo/auth_repo.dart';
 import 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit() : super(AuthInitialState());
+  //AuthCubit() : super(AuthInitialState());
+
+  AuthCubit._internal() : super(AuthInitialState());
+  static final AuthCubit _cubitInstance = AuthCubit._internal();
+  factory AuthCubit()
+  {
+    return _cubitInstance;
+  }
 
   static AuthCubit get(context) => BlocProvider.of(context);
 

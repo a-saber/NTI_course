@@ -16,7 +16,9 @@ class RegisterView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocProvider(
+  create: (context) => AuthCubit(),
+  child: Scaffold(
       appBar: AppBar(
         title: Text(AppStrings.register),
         centerTitle: true,
@@ -87,6 +89,7 @@ class RegisterView extends StatelessWidget {
           );
         }
       ),
-    );
+    ),
+);
   }
 }

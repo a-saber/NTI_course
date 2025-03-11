@@ -3,6 +3,10 @@ import 'package:nti_course/features/auth/data/models/user_model.dart';
 
 class AuthRepo
 {
+
+  AuthRepo._internal(); // private constructor
+  static final AuthRepo _instance = AuthRepo._internal();
+  factory AuthRepo() => _instance;
   UserModel? user;
 
   Future<Either<String, void>> register({required UserModel user}) async
