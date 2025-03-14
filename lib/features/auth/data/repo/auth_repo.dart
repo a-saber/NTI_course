@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:nti_course/features/auth/data/models/user_model.dart';
 
 class AuthRepo
@@ -7,28 +8,34 @@ class AuthRepo
   AuthRepo._internal(); // private constructor
   static final AuthRepo _instance = AuthRepo._internal();
   factory AuthRepo() => _instance;
-  UserModel? user;
 
-  Future<Either<String, void>> register({required UserModel user}) async
+  Future<Either<String, void>> register({required String username, required String password}) async
   {
     try
     {
-      if(user.email.isEmpty)
-      {
-        throw Exception('Email is empty');
-      }
+      Dio dio = Dio();
+      var response  = await dio.post(
+        'https://nti-production.up.railway.app/api/register',
+        data: FormData.fromMap({
+          'username': username,
+          'password': password
+        })
+     //  options: Options(headers: {'Authorization':"Bearer ${AccessToken}"})
+      );
+      print("success");
+      print(response.data.toString());
 
-      if(user.password.isEmpty)
-      {
-        throw Exception('Password is empty');
-      }
-      this.user = user;
-      await Future.delayed(Duration(milliseconds: 1000));
       return Right(null);
-    }
-    catch(e)
+    } on DioException catch(e)
     {
-      return Left(e.toString());
+      if(e.response == null)
+      {
+        return Left(e.toString());
+      }
+      else
+      {
+        return Left(e.response!.data['message']);
+      }
     }
   }
 
@@ -36,21 +43,8 @@ class AuthRepo
   {
     try
     {
-      if(user != null)
-      {
-        if(user!.email == email && user!.password == password)
-        {
-          return Right(user!);
-        }
-        else
-        {
-          throw Exception('Wrong email or password');
-        }
-      }
-      else
-      {
-        throw Exception('You should register first');
-      }
+
+      return Right(UserModel(email: 'email', password: 'password',  name: 'name'));
     }
     catch(e)
     {

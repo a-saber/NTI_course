@@ -31,11 +31,9 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthRegisterLoading());
 
     var response = await authRepo.register(
-        user: UserModel(
-            name: nameController.text,
-            email: emailController.text,
+            username: nameController.text,
             password: passwordController.text
-        )
+
     );
 
     response.fold(
