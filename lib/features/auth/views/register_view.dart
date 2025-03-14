@@ -53,6 +53,11 @@ class RegisterView extends StatelessWidget {
                     print(state.toString());
                     if(state is AuthRegisterSuccess)
                     {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(state.msg),
+                          )
+                      );
                       MyNavigator.navigateTo( screen: LoginView());
                     }
                     else if(state is AuthRegisterError)
@@ -82,7 +87,8 @@ class RegisterView extends StatelessWidget {
                     }
 
                   },
-                )
+                ),
+                TextButton(onPressed: (){MyNavigator.navigateTo(screen: LoginView());}, child: Text(AppStrings.donTHaveAccount))
 
               ],
             ),

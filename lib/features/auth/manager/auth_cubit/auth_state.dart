@@ -3,7 +3,10 @@ abstract class AuthState{}
 class AuthInitialState extends AuthState{}
 
 class AuthRegisterLoading extends AuthState{}
-class AuthRegisterSuccess extends AuthState{}
+class AuthRegisterSuccess extends AuthState{
+  String msg;
+  AuthRegisterSuccess({required this.msg});
+}
 class AuthRegisterError extends AuthState
 {
   String error;

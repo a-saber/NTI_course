@@ -45,17 +45,17 @@ class AuthCubit extends Cubit<AuthState> {
       // right
       (r)
       {
-        emit(AuthRegisterSuccess());
+        emit(AuthRegisterSuccess(msg: r));
       }
     );
   }
 
 
-  void onLoginPressed()
+  void onLoginPressed() async
   {
     emit(AuthLoginLoading());
 
-    var response = authRepo.login(email: loginEmailController.text, password: loginPasswordController.text);
+    var response = await authRepo.login(username: loginEmailController.text, password: loginPasswordController.text);
     response.fold(
       (String error)
       {

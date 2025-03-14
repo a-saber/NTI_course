@@ -1,55 +1,68 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:nti_course/core/local/local_data.dart';
+import 'package:nti_course/core/network/api_helper.dart';
+import 'package:nti_course/core/network/api_response.dart';
+import 'package:nti_course/core/network/end_points.dart';
 import 'package:nti_course/features/auth/data/models/user_model.dart';
 
-class AuthRepo
-{
-
+class AuthRepo {
   AuthRepo._internal(); // private constructor
   static final AuthRepo _instance = AuthRepo._internal();
+
   factory AuthRepo() => _instance;
 
-  Future<Either<String, void>> register({required String username, required String password}) async
-  {
-    try
-    {
-      Dio dio = Dio();
-      var response  = await dio.post(
-        'https://nti-production.up.railway.app/api/register',
-        data: FormData.fromMap({
-          'username': username,
-          'password': password
-        })
-     //  options: Options(headers: {'Authorization':"Bearer ${AccessToken}"})
-      );
-      print("success");
-      print(response.data.toString());
+  APIHelper apiHelper = APIHelper();
 
-      return Right(null);
-    } on DioException catch(e)
-    {
-      if(e.response == null)
+  Future<Either<String, String>> register(
+      {required String username, required String password}) async {
+    try {
+      ApiResponse apiResponse = await apiHelper.postRequest(
+          endPoint: EndPoints.register,
+          data: {"username": username, "password": password},
+          isAuthorized: false);
+
+      if(apiResponse.status)
       {
-        return Left(e.toString());
+        return Right(apiResponse.message);
       }
       else
       {
-        return Left(e.response!.data['message']);
+        return Left(apiResponse.message);
       }
+    } catch (e) {
+      return Left(ApiResponse.fromError(e).message);
     }
   }
 
-  Either<String, UserModel> login({required String email, required String password})
-  {
-    try
-    {
+  Future<Either<String, UserModel>> login(
+      {required String username, required String password}) async{
+    try {
+      ApiResponse apiResponse = await apiHelper.postRequest(
+          endPoint: EndPoints.login,
+          data: {"username": username, "password": password},
+          isAuthorized: false
+      );
 
-      return Right(UserModel(email: 'email', password: 'password',  name: 'name'));
-    }
-    catch(e)
-    {
+      if(apiResponse.status)
+      {
+        LoginResponseModel loginResponseModel = LoginResponseModel.fromJson(apiResponse.data);
+        if(loginResponseModel.user == null)
+        {
+          return Left(apiResponse.message);
+        }
+        LocalData.accessToken = loginResponseModel.accessToken;
+        LocalData.refreshToken = loginResponseModel.refreshToken;
+        return Right(loginResponseModel.user!);
+      }
+      else
+      {
+        return Left(apiResponse.message);
+      }
+
+
+    } catch (e) {
       return Left(e.toString());
     }
   }
-
 }

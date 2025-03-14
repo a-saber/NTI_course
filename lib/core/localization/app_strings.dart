@@ -6,6 +6,7 @@ abstract class AppStrings
   static const String email = 'Email';
   static const String password = 'Password';
   static const String passwordConfirm = 'Confirm Password';
+  static const donTHaveAccount = 'Don\'t have an account? Login Now';
 
   // LoginView
   static const String login = 'Login';
